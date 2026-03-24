@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secure App</title>
+</head>
+<body>
+  <h2>✅ Secure Portal (With CSRF)</h2>
+
+  <p>Password: <span id="password">12345</span></p>
+
+  <button onclick="secureUpdate()">Change Password</button>
+
+  <script>
+    let password = "12345";
+
+    // Simulated CSRF token
+    const csrfToken = "secure123";
+
+    function secureUpdate(newPass = "user_changed", token) {
+      if (token !== csrfToken) {
+        alert("🚫 CSRF BLOCKED!");
+        return;
+      }
+      password = newPass;
+      document.getElementById("password").innerText = password;
+    }
+
+    // Only expose safe method
+    window.secureUpdate = secureUpdate;
+  </script>
+</body>
+</html>

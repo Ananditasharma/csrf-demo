@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vulnerable App</title>
+</head>
+<body>
+  <h2>❌ Vulnerable Portal (No CSRF)</h2>
+
+  <p>Password: <span id="password">12345</span></p>
+
+  <button onclick="updatePassword()">Change Password</button>
+
+  <script>
+    let password = "12345";
+
+    function updatePassword(newPass = "user_changed") {
+      password = newPass;
+      document.getElementById("password").innerText = password;
+    }
+
+    // Expose globally (simulating API)
+    window.insecureUpdate = updatePassword;
+  </script>
+</body>
+</html>

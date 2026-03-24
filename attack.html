@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attacker Page</title>
+</head>
+<body>
+  <h1>💀 Malicious Site</h1>
+
+  <h3>Attack Vulnerable App</h3>
+  <button onclick="attackVulnerable()">Attack</button>
+
+  <h3>Attack Secure App</h3>
+  <button onclick="attackSecure()">Attack</button>
+
+  <script>
+    function attackVulnerable() {
+      if (window.opener && window.opener.insecureUpdate) {
+        window.opener.insecureUpdate("hacked123");
+        alert("✅ Attack Success!");
+      } else {
+        alert("Open vulnerable app first");
+      }
+    }
+
+    function attackSecure() {
+      if (window.opener && window.opener.secureUpdate) {
+        window.opener.secureUpdate("hacked123");
+        alert("❌ Attack Failed (No Token)");
+      } else {
+        alert("Open secure app first");
+      }
+    }
+  </script>
+</body>
+</html>
